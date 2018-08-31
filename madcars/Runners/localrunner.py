@@ -9,10 +9,6 @@ from asyncio import events
 from mechanic.game import Game
 from mechanic.strategy import KeyboardClient, FileClient
 
-window = pyglet.window.Window(1200, 800, vsync=False)
-draw_options = pymunk.pyglet_util.DrawOptions()
-_ = pyglet.clock.ClockDisplay(interval=0.016)
-
 
 parser = argparse.ArgumentParser(description='LocalRunner for MadCars')
 
@@ -24,6 +20,9 @@ parser.add_argument('-s', '--sp', type=str, nargs='?',
                     help='Path to executable with strategy for second player', default='keyboard')
 parser.add_argument('--spl', type=str, nargs='?', help='Path to log for second player')
 
+parser.add_argument('-ww', '--width', type=int, nargs='?', help='Window width', default=1200)
+parser.add_argument('-wh', '--height', type=int, nargs='?', help='Window height', default=800)
+parser.add_argument('-vs', '--scale', type=float, nargs='?', help='Viewport scale', default=1.0)
 
 maps = ['PillMap', 'PillHubbleMap', 'PillHillMap', 'PillCarcassMap', 'IslandMap', 'IslandHoleMap']
 cars = ['Buggy', 'Bus', 'SquareWheelsBuggy']
@@ -33,6 +32,10 @@ games = [','.join(t) for t in product(maps, cars)]
 parser.add_argument('-m', '--matches', nargs='+', help='List of pairs(map, car) for games', default=games)
 
 args = parser.parse_args()
+
+window = pyglet.window.Window(args.width, args.height, vsync=False)
+draw_options = pymunk.pyglet_util.DrawOptions()
+_ = pyglet.clock.ClockDisplay(interval=0.0016)
 
 first_player = args.fp
 second_player = args.sp
@@ -52,6 +55,8 @@ game = Game([fc, sc], args.matches, extended_save=False)
 loop = events.new_event_loop()
 events.set_event_loop(loop)
 
+
+pyglet.gl.glScalef(args.scale, args.scale, args.scale)
 
 @window.event
 def on_draw():
