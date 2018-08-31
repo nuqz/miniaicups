@@ -3,6 +3,7 @@ import gzip
 import json
 
 import os
+from os.path import abspath
 import random
 
 import pyglet
@@ -63,7 +64,7 @@ class FileClient(Client):
         self.process = Popen(path_to_script, stdout=PIPE, stdin=PIPE)
         self.last_message = None
         if path_to_log is None:
-            base_dir = os.getcwd()
+            base_dir = abspath('logs')
             now = datetime.datetime.now().strftime('%Y_%m_%d-%H-%M-%S.log.gz')
             self.path_to_log = os.path.join(base_dir, now)
         else:
