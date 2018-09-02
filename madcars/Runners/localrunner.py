@@ -33,10 +33,6 @@ parser.add_argument('-m', '--matches', nargs='+', help='List of pairs(map, car) 
 
 args = parser.parse_args()
 
-window = pyglet.window.Window(args.width, args.height, vsync=False)
-draw_options = pymunk.pyglet_util.DrawOptions()
-_ = pyglet.clock.ClockDisplay(interval=0.0016)
-
 first_player = args.fp
 second_player = args.sp
 
@@ -55,31 +51,11 @@ game = Game([fc, sc], args.matches, extended_save=False)
 loop = events.new_event_loop()
 events.set_event_loop(loop)
 
+while not game.game_complete:
+  future_message = loop.run_until_complete(game.tick())
 
-pyglet.gl.glScalef(args.scale, args.scale, args.scale)
-
-@window.event
-def on_draw():
-    pyglet.gl.glClearColor(255,255,255,255)
-    window.clear()
-    game.draw(draw_options)
-    game.tick()
-    if not game.game_complete:
-        future_message = loop.run_until_complete(game.tick())
-    else:
-        winner = game.get_winner()
-        if winner:
-            pyglet.text.Label("Player {} win".format(winner.id), font_name='Times New Roman',
-                          font_size=36,
-                          color=(255, 0, 0, 255),
-                          x=600, y=500,
-                          anchor_x='center', anchor_y='center').draw()
-        else:
-            pyglet.text.Label("Draw", font_name='Times New Roman',
-                              font_size=36,
-                              color=(255, 0, 0, 255),
-                              x=600, y=500,
-                              anchor_x='center', anchor_y='center').draw()
-
-
-pyglet.app.run()
+winner = game.get_winner()
+if winner:
+  print("Player {} win".format(winner.id))
+else:
+  print("Draw")
