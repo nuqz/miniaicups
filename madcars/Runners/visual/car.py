@@ -72,7 +72,7 @@ class Car(Drawer):
 		self.proto_car = proto_car
 		self.spawn = spawn
 		self.angle = 0
-		self.body = Body(proto_car["external_id"], proto_car["car_body_poly"], spawn=self.spawn)
+		self.body = Body(proto_car["external_id"], proto_car["car_body_poly"], color=self.color, spawn=self.spawn)
 		self.button = Body(proto_car["external_id"]+20, proto_car["button_poly"], color=0xFF0000, spawn=self.spawn)
 		self.front_wheel = Wheel(proto_car["front_wheel_position"],
 			proto_car["front_wheel_radius"])
