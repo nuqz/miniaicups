@@ -53,11 +53,6 @@ class Body(Drawer):
 		x0, y0 = self.x, self.y
 		self.move(x, y)
 		self.angle, self.spawn = angle, spawn
-		# c = self.center()
-		# self.objects = [Vector(
-		# 	self.x + c[0], self.y + c[1],
-		# 	self.x - x0, self.y - y0,
-		# 	multiplier=10)]
 
 	def draw(self, rewind):
 		Drawer.draw(self, rewind)
