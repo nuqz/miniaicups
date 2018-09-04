@@ -55,7 +55,7 @@ if __name__ == '__main__':
 				visualizer.set_track(m)
 				visualizer.set_cars(car_left, car_right)
 			elif msg["type"] == "end_game":
-				print("END")
+				break
 			else:
 				visualizer.set_deadline(Deadline(msg["params"]["deadline_position"]))
 				visualizer.player1.update(msg["params"]["cars"]["1"])
