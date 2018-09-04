@@ -43,10 +43,11 @@ class Body(Drawer):
 		self.angle = 0
 
 	def center(self):
-		psum = reduce(lambda start, end: [start[0] + end[0], start[1] + end[1]],
-			list(map(lambda line: rotate_point(line[0], self.angle * self.spawn), self.lines)))
 		ln = len(self.lines) - 1
-		return [psum[0] * self.spawn / ln, psum[1] / ln]
+		psum = reduce(lambda acc, nxt: [[acc[0][0] + nxt[0][0], acc[0][1] + nxt[0][1]]],
+			self.lines[1:], [[0, 0]])[0]
+
+		return rotate_point([psum[0] * self.spawn / ln, psum[1] / ln], self.angle)
 
 	def update(self, x, y, angle, spawn):
 		x0, y0 = self.x, self.y
