@@ -51,7 +51,7 @@ if __name__ == '__main__':
 			if msg["type"] == "new_match":
 				m = Track(msg["params"]["proto_map"], layer=1)
 				car_left = Car(msg["params"]["proto_car"])
-				car_right = Car(msg["params"]["proto_car"], spawn=-1)
+				car_right = Car(msg["params"]["proto_car"], color=0x0000FF, spawn=-1)
 				visualizer.set_track(m)
 				visualizer.set_cars(car_left, car_right)
 			elif msg["type"] == "end_game":
