@@ -1,10 +1,11 @@
-class Object:
-	def __init__(self, layer=3):
-		self.layer = layer
+class Drawer:
+	def __init__(self, color=0x000000, layer=3):
 		self.objects = []
 		self.x = 0
 		self.y = 0
-		pass
+
+		self.layer = layer
+		self.color = color
 
 	def reset(self):
 		self.objects = []
@@ -18,4 +19,3 @@ class Object:
 	def draw(self, rewind):
 		for obj in self.objects:
 			obj.draw(rewind)
-		pass

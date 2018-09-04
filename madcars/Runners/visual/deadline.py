@@ -1,11 +1,10 @@
-from object import Object
+from drawer import Drawer
 
-class Deadline(Object):
-	def __init__(self, level, layer=4):
-		Object.__init__(self, layer)
+class Deadline(Drawer):
+	def __init__(self, level, layer=1):
+		Drawer.__init__(self, layer)
 		self.level = level
 
 	def draw(self, rewind):
-		rewind.line(0, self.level,
-			1200, self.level,
-			0x000000, self.layer)
+		rewind.line(0, self.level, 1200, self.level,
+			self.color, self.layer)

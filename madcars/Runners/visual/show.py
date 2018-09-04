@@ -1,24 +1,26 @@
 #!/usr/bin/env python3
+
 import gzip
 import sys
 import json
 import math
 
 from rewind import RewindClient
-from object import Object
+from drawer import Drawer
+from vector import Vector
 from deadline import Deadline
 from car import Car
-from map import Map
+from track import Track
 
-class Visualizer(Object):
+class Visualizer(Drawer):
 	def __init__(self):
-		self.map = None
+		self.track = None
 		self.player1 = None
 		self.player2 = None
 		self.deadline = None
 
-	def set_map(self, map):
-		self.map = map
+	def set_track(self, track):
+		self.track = track
 
 	def set_cars(self, car_left, car_right):
 		self.player1 = car_left
@@ -28,13 +30,13 @@ class Visualizer(Object):
 		self.deadline = deadline
 
 	def draw(self, rewind):
-		for obj in [self.map, self.player1, self.player2, self.deadline]:
-			if obj != None:
-				self.objects.append(obj)
+		objs = list(filter(lambda obj: obj is not None,
+			[self.track, self.player1, self.player2, self.deadline]))
+		for obj in objs:
+			self.objects.append(obj)
 
-		Object.draw(self, rewind)
+		Drawer.draw(self, rewind)
 		rewind.end_frame()
-		return
 
 if __name__ == '__main__':
 	rewind = RewindClient()
@@ -47,10 +49,10 @@ if __name__ == '__main__':
 			visualizer.reset()
 
 			if msg["type"] == "new_match":
-				m = Map(msg["params"]["proto_map"], layer=1)
+				m = Track(msg["params"]["proto_map"], layer=1)
 				car_left = Car(msg["params"]["proto_car"])
 				car_right = Car(msg["params"]["proto_car"], spawn=-1)
-				visualizer.set_map(m)
+				visualizer.set_track(m)
 				visualizer.set_cars(car_left, car_right)
 			elif msg["type"] == "end_game":
 				print("END")
@@ -58,7 +60,6 @@ if __name__ == '__main__':
 				visualizer.set_deadline(Deadline(msg["params"]["deadline_position"]))
 				visualizer.player1.update(msg["params"]["cars"]["1"])
 				visualizer.player2.update(msg["params"]["cars"]["2"])
-
 			visualizer.draw(rewind)
 
 	rewind.close()

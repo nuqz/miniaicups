@@ -1,6 +1,5 @@
 import _socket
 import json
-from enum import Enum
 
 class RewindClient():
     def __init__(self, host=None, port=None):
@@ -48,6 +47,15 @@ class RewindClient():
             'y2': y2,
             'color': color,
             'layer': layer
+        })
+
+    def popup(self, x, y, r, msg):
+        self._send({
+            'type': 'popup',
+            'x': x,
+            'y': y,
+            'r': r,
+            'text': msg,
         })
 
     def message(self, msg):
