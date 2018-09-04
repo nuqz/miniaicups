@@ -83,8 +83,8 @@ class Car(Drawer):
 		self.spawn = data[2]
 		self.body.update(self.x, self.y, self.angle, self.spawn)
 		self.button.update(self.x, self.y, self.angle, self.spawn)
-		self.front_wheel.update(data[3])
-		self.rear_wheel.update(data[4])
+		self.front_wheel.update(data[4])
+		self.rear_wheel.update(data[3])
 
 		c = self.body.center()
 		self.move_vector.update(self.x + c[0], self.y + c[1], self.x - x0, self.y - y0)
